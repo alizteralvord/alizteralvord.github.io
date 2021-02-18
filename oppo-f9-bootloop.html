@@ -111,7 +111,7 @@ p:last-child {
     
     <nav class="site-navigation">
       <ul>
-        <li><a href="#">Link</a></li>
+        <li><a href="https://drive.google.com/file/d/1aPCd5sbOeEDGR12ruKbwIoX4N_W9MUlw/view?usp=sharing">Download</a></li>
         <li><a href="#">Link</a></li>
         <li><a href="#">Link</a></li>
       </ul>
@@ -144,13 +144,26 @@ p:last-child {
       </article><!-- .site-content -->
     
         <article class="site-content">
-      <h1>Cupcake Ipsum Dolor</h1>
+      <h1>Solusi</h1>
 
-      <p>Sit amet tootsie roll I love I love I love carrot cake. Cupcake candy icing wafer apple pie muffin powder sugar plum. Marzipan lollipop cake icing. I love chupa chups candy gingerbread I love. Pie brownie dessert chocolate. Marshmallow sweet roll marshmallow jujubes apple pie.</p>
-
-      <p>Brownie gummies chocolate bar icing pie sweet. Candy chupa chups bonbon ice cream I love cookie croissant caramels fruitcake. Chocolate caramels dessert chocolate gummies brownie jelly beans jelly beans cake. Cotton candy tiramisu bear claw dragée chocolate. Cotton candy pastry caramels marshmallow jelly ice cream I love. I love bonbon chupa chups croissant powder. Gingerbread soufflé tiramisu carrot cake. Croissant chupa chups I love danish.</p>
-
-      <p>Bear claw cotton candy powder I love bonbon apple pie. I love soufflé danish cupcake sweet roll. Jujubes danish danish macaroon biscuit I love liquorice halvah sugar plum. Chocolate bar chocolate cake chocolate bar pastry tootsie roll danish chupa chups jujubes. Dragée sweet carrot cake cookie sweet roll. Cake oat cake sweet candy canes. Bear claw ice cream liquorice sweet roll marzipan brownie powder sweet powder. Chocolate cake I love I love I love chocolate cake liquorice I love. Icing carrot cake cake. Donut cheesecake gingerbread pudding tiramisu I love soufflé caramels dessert.</p>
+      <p>
+        Ini tutorial penggantian emmc untuk f9 bisa juga untuk tipe sejenis agar ketika update ota ke latest version tidak mati blank partition...
+Emmc kosongin total... Full erase... Factory erase... Pasang..
+Untuk cpu yang sudah kena update C version maka identify nya pake DA dari firmware versi a.03, flash nya pakai a.13 atau a.16
+pilih firmware a. 03 di ufi terus identify, setelah ter scan jangan lepas usb, langsung pindah ke firmware a. 13 atau a. 16...flash (tanpa centang preloader) dan uncheck reboot after flash ...agar kita tidak perlu TP
+Setelah flashing selesai, identify ulang untuk scan partisi, masukkan oppo image custome dari backupan... Write...
+Identify ulang... Pilih firmware a. 13/a.16... Centang preloader saja... Flash... Reboot...
+Masuk menu normal mode, baseband ada imei null
+Jika ada backupan maka tinggal write lewat nvram nvdata lewat ISP, kita gak bisa write security lewat USB Test point
+Tapi jika tanpa backup Untuk f9 bisa repair imei lewat atci mode *#800# pilih enable atci... Pilih transfer file di opsi koneksi pas colok usb...di DM harus detect Mediatek vcom port....Centang AT mode di Ufi Android Service tab... Masukkan imei yang sesuai... Write...
+Masalah imei f9 kelar...
+Masuk menu cek *#06#
+Agar permanen SN dan imei maka kita harus write lewat meta mode
+Matikan ponsel, masukkan SN(pcb num bisa didapat dari scan barcode di stiker yang nembel dimesin, read pakai aplikasi QR code), uncheck atmode ... Write imei...
+Colok usb akan masuk meta mode dan write SN+encrypted imei done
+Masalah Dead after update(blank partisi) di hp oppo, realme dan vivo itu karena ada beberapa DA parameter ID cpu yang gak bisa masuk ke emmc, parameter ini hanya bisa masuk bersamaan DA(mtk),/firehose(qualcomm) ketika SOC kondisi Download nya terbuka(DA/sahara mode)
+File dari Guru Zora
+          </p>
     </article><!-- .site-content -->
   </main><!-- .content-wrapper --
 </div><!-- .site -->
