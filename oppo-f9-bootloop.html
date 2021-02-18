@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.80.0">
+    <title>Workspace</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/offcanvas/">
+
+    
+
+    <!-- Bootstrap core CSS -->
+<link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+
+    
+    <!-- Custom styles for this template -->
+    <link href="offcanvas.css" rel="stylesheet">
+  </head>
+  <body class="bg-light">
+
+<main class="container">
+  <div class="d-flex align-items-center p-3 my-3 text-white bg-purple rounded shadow-sm">
+    <button type="button" class="btn btn-light btn-small mr-3" onclick="history.back(-1)" >
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+        </svg>
+    </button>
+    <div class="lh-1 mx-3">
+      <h1 class="h6 mb-0 text-white lh-1"> OPPO F9 BOOTLOOP</h1>
+    </div>
+  </div>
+
+  <div class="my-3 p-3 bg-body rounded shadow-sm">
+    <h6 class="border-bottom pb-2 mb-2">Problem</h6>
+    <div class="card">
+        <p>
+            <pre>
+    BRAND       : OPPO F9
+    TYPE        : CPH1823
+    KASUS       : BOOTLOOP urgent 90%
+    Eksekusi    : ganti eMMC (SKHynix CPMMD 64GB) - > pasang emmc kosongan
+                
+    KENDALA : 
+    Lanjut flash Via Ufi toolbox 
+    Namun saat Kolom Firmware saya isi FW Versi A. 03 selalu muncul "Error 5078 (S_DL_BL_SIG_TYPE_UNSUPORTED) 
+    Tab FW A. 03 
+    Tab Scatter FW A. 13
+    Dan waktu indentify selalu gagal di situ 
+    Tolong dong om sarannya 🙏🙏
+    Kali aja ada yg pernah Done dngn kasus sperti saya. 
+    Saya pake UFI V1. 3.0.1155
+    </pre>
+        </p>
+
+        <button onclick="myFunction()" class="btn btn-success" >Show Images</button>
+
+        <div id="myDIV" style="display: none;">
+            <img src="img/oppo-f9-bootloop/1.jpg" class="img-fluid" alt="...">
+            <img src="img/oppo-f9-bootloop/2.jpg" class="img-fluid" alt="...">
+            <img src="img/oppo-f9-bootloop/3.jpg" class="img-fluid" alt="...">
+            <img src="img/oppo-f9-bootloop/4.jpg" class="img-fluid" alt="...">
+            <img src="img/oppo-f9-bootloop/source.jpeg" class="img-fluid" alt="...">
+
+        </div>
+
+    </div>
+  </div>
+
+  <div class="my-3 p-3 bg-body rounded shadow-sm">
+    <h6 class="border-bottom pb-2 mb-2">Solution</h6>
+    <div class="card">
+        <p>
+            <pre>
+    Ini tutorial penggantian emmc untuk f9 bisa juga untuk tipe sejenis agar ketika update ota ke latest version tidak mati blank partition...
+    Emmc kosongin total... Full erase... Factory erase... Pasang..
+    Untuk cpu yang sudah kena update C version maka identify nya pake DA dari firmware versi a.03, flash nya pakai a.13 atau a.16
+    pilih firmware a. 03 di ufi terus identify, setelah ter scan jangan lepas usb, langsung pindah ke firmware a. 13 atau a. 16...flash (tanpa centang preloader) dan uncheck reboot after flash ...agar kita tidak perlu TP
+    Setelah flashing selesai, identify ulang untuk scan partisi, masukkan oppo image custome dari backupan... Write...
+    Identify ulang... Pilih firmware a. 13/a.16... Centang preloader saja... Flash... Reboot...
+    Masuk menu normal mode, baseband ada imei null
+    Jika ada backupan maka tinggal write lewat nvram nvdata lewat ISP, kita gak bisa write security lewat USB Test point
+    Tapi jika tanpa backup Untuk f9 bisa repair imei lewat atci mode *#800# pilih enable atci... Pilih transfer file di opsi koneksi pas colok usb...di DM harus detect Mediatek vcom port....Centang AT mode di Ufi Android Service tab... Masukkan imei yang sesuai... Write...
+    Masalah imei f9 kelar...
+    Masuk menu cek *#06#
+    Agar permanen SN dan imei maka kita harus write lewat meta mode
+    Matikan ponsel, masukkan SN(pcb num bisa didapat dari scan barcode di stiker yang nembel dimesin, read pakai aplikasi QR code), uncheck atmode ... Write imei...
+    Colok usb akan masuk meta mode dan write SN+encrypted imei done
+    Masalah Dead after update(blank partisi) di hp oppo, realme dan vivo itu karena ada beberapa DA parameter ID cpu yang gak bisa masuk ke emmc, parameter ini hanya bisa masuk bersamaan DA(mtk),/firehose(qualcomm) ketika SOC kondisi Download nya terbuka(DA/sahara mode)
+    File dari Guru Zora
+    </pre>
+        </p>
+    </div>
+  </div>
+
+  <div class="my-3 p-3 bg-body rounded shadow-sm">
+    <h6 class="border-bottom pb-2 mb-2">Download</h6>
+    <button type="button" class="btn btn-success" onclick="location.href='https://drive.google.com/file/d/1aPCd5sbOeEDGR12ruKbwIoX4N_W9MUlw/view?usp=sharing'" >CPH1825_11_A.03_180809_a1f19367.rar</button>
+  </div>
+</main>
+
+<script>
+    function myFunction() {
+  var x = document.getElementById("myDIV");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+</script>
+    <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+
+      <script src="offcanvas.js"></script>
+  </body>
+</html>
