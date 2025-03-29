@@ -11,35 +11,73 @@
     <button onclick="processImage()">Scan Image</button>
     <p id="output"></p>
     <canvas id="qrCanvas"></canvas>
+    <div id="logs" style="background-color: #f4f4f4; padding: 10px; margin-top: 20px; border: 1px solid #ccc;">
+        <h3>Logs:</h3>
+        <p id="logMessages"></p>
+    </div>
     <script>
-async function processImage() {
-    const file = document.getElementById('imageInput').files[0];
-    if (!file) return alert('Please upload an image!');
+        async function processImage() {
+            const file = document.getElementById('imageInput').files[0];
+            const logMessages = document.getElementById('logMessages');
+            logMessages.innerHTML = ''; // Clear previous logs
 
-    const reader = new FileReader();
-    reader.onload = async function () {
-        const worker = Tesseract.createWorker({
-            logger: info => console.log(info) // Optional: log progress
-        });
-        await worker.load(); // Load the worker
-        await worker.loadLanguage('eng'); // Load English language
-        await worker.initialize('eng'); // Initialize with English language
-        const { data } = await worker.recognize(reader.result); // Perform OCR
-        const spxids = data.text.match(/SPXID\d+/g); // Extract SPXIDs
-        if (spxids) {
-            document.getElementById('output').innerHTML = 'Found SPXIDs: ' + spxids.join(', ');
-            QRCode.toCanvas(document.getElementById('qrCanvas'), spxids.join(', '), function (error) {
-                if (error) console.error(error);
-                console.log('QR code generated successfully!');
-            });
-        } else {
-            document.getElementById('output').innerHTML = 'No SPXID found!';
+            if (!file) {
+                logMessages.innerHTML += 'Please upload an image!<br>';
+                return alert('Please upload an image!');
+            }
+
+            const reader = new FileReader();
+            logMessages.innerHTML += 'File loaded successfully.<br>';
+            
+            reader.onload = async function () {
+                logMessages.innerHTML += 'Processing image...<br>';
+
+                const worker = Tesseract.createWorker({
+                    logger: info => {
+                        console.log(info);
+                        logMessages.innerHTML += `Tesseract log: ${JSON.stringify(info)}<br>`;
+                    } // Log progress
+                });
+
+                try {
+                    await worker.load();
+                    logMessages.innerHTML += 'Worker loaded successfully.<br>';
+
+                    await worker.loadLanguage('eng');
+                    logMessages.innerHTML += 'Language loaded successfully.<br>';
+
+                    await worker.initialize('eng');
+                    logMessages.innerHTML += 'Worker initialized successfully.<br>';
+
+                    const { data } = await worker.recognize(reader.result);
+                    logMessages.innerHTML += 'OCR process completed.<br>';
+
+                    const spxids = data.text.match(/SPXID\d+/g);
+                    if (spxids) {
+                        document.getElementById('output').innerHTML = 'Found SPXIDs: ' + spxids.join(', ');
+                        QRCode.toCanvas(document.getElementById('qrCanvas'), spxids.join(', '), function (error) {
+                            if (error) {
+                                logMessages.innerHTML += `QR Code generation error: ${error}<br>`;
+                                console.error(error);
+                            } else {
+                                logMessages.innerHTML += 'QR code generated successfully.<br>';
+                                console.log('QR code generated successfully!');
+                            }
+                        });
+                    } else {
+                        logMessages.innerHTML += 'No SPXID found in the image.<br>';
+                        document.getElementById('output').innerHTML = 'No SPXID found!';
+                    }
+                } catch (error) {
+                    logMessages.innerHTML += `Error during processing: ${error.message}<br>`;
+                    console.error(error);
+                } finally {
+                    await worker.terminate();
+                    logMessages.innerHTML += 'Worker terminated successfully.<br>';
+                }
+            };
+            reader.readAsDataURL(file);
         }
-        await worker.terminate(); // Terminate worker
-    };
-    reader.readAsDataURL(file);
-}
-
     </script>
 </body>
 </html>
