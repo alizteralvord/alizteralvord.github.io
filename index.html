@@ -20,38 +20,39 @@
             const file = document.getElementById('imageInput').files[0];
             const logMessages = document.getElementById('logMessages');
             logMessages.innerHTML = ''; // Clear previous logs
-
+        
             if (!file) {
                 logMessages.innerHTML += 'Please upload an image!<br>';
                 return alert('Please upload an image!');
             }
-
+        
             const reader = new FileReader();
             logMessages.innerHTML += 'File loaded successfully.<br>';
-            
+        
             reader.onload = async function () {
                 logMessages.innerHTML += 'Processing image...<br>';
-
+        
+                // Create a new worker (no need for .load())
                 const worker = Tesseract.createWorker({
                     logger: info => {
                         console.log(info);
                         logMessages.innerHTML += `Tesseract log: ${JSON.stringify(info)}<br>`;
                     } // Log progress
                 });
-
+        
                 try {
-                    await worker.load();
-                    logMessages.innerHTML += 'Worker loaded successfully.<br>';
-
+                    // Load language and initialize (no separate .load() step)
                     await worker.loadLanguage('eng');
                     logMessages.innerHTML += 'Language loaded successfully.<br>';
-
+        
                     await worker.initialize('eng');
                     logMessages.innerHTML += 'Worker initialized successfully.<br>';
-
+        
+                    // Recognize the image
                     const { data } = await worker.recognize(reader.result);
                     logMessages.innerHTML += 'OCR process completed.<br>';
-
+        
+                    // Extract SPXID text
                     const spxids = data.text.match(/SPXID\d+/g);
                     if (spxids) {
                         document.getElementById('output').innerHTML = 'Found SPXIDs: ' + spxids.join(', ');
@@ -61,7 +62,6 @@
                                 console.error(error);
                             } else {
                                 logMessages.innerHTML += 'QR code generated successfully.<br>';
-                                console.log('QR code generated successfully!');
                             }
                         });
                     } else {
@@ -72,10 +72,12 @@
                     logMessages.innerHTML += `Error during processing: ${error.message}<br>`;
                     console.error(error);
                 } finally {
+                    // Terminate the worker
                     await worker.terminate();
                     logMessages.innerHTML += 'Worker terminated successfully.<br>';
                 }
             };
+        
             reader.readAsDataURL(file);
         }
     </script>
