@@ -12,31 +12,34 @@
     <p id="output"></p>
     <canvas id="qrCanvas"></canvas>
     <script>
-        async function processImage() {
-            const file = document.getElementById('imageInput').files[0];
-            if (!file) return alert('Please upload an image!');
-            
-            const reader = new FileReader();
-            reader.onload = async function () {
-                const worker = Tesseract.createWorker();
-                await worker.load();
-                await worker.loadLanguage('eng');
-                await worker.initialize('eng');
-                const { data } = await worker.recognize(reader.result);
-                const spxids = data.text.match(/SPXID\d+/g);
-                if (spxids) {
-                    document.getElementById('output').innerHTML = 'Found SPXIDs: ' + spxids.join(', ');
-                    QRCode.toCanvas(document.getElementById('qrCanvas'), spxids.join(', '), function (error) {
-                        if (error) console.error(error);
-                        console.log('QR code generated successfully!');
-                    });
-                } else {
-                    document.getElementById('output').innerHTML = 'No SPXID found!';
-                }
-                await worker.terminate();
-            };
-            reader.readAsDataURL(file);
+async function processImage() {
+    const file = document.getElementById('imageInput').files[0];
+    if (!file) return alert('Please upload an image!');
+
+    const reader = new FileReader();
+    reader.onload = async function () {
+        const worker = Tesseract.createWorker({
+            logger: info => console.log(info) // Optional: log progress
+        });
+        await worker.load(); // Load the worker
+        await worker.loadLanguage('eng'); // Load English language
+        await worker.initialize('eng'); // Initialize with English language
+        const { data } = await worker.recognize(reader.result); // Perform OCR
+        const spxids = data.text.match(/SPXID\d+/g); // Extract SPXIDs
+        if (spxids) {
+            document.getElementById('output').innerHTML = 'Found SPXIDs: ' + spxids.join(', ');
+            QRCode.toCanvas(document.getElementById('qrCanvas'), spxids.join(', '), function (error) {
+                if (error) console.error(error);
+                console.log('QR code generated successfully!');
+            });
+        } else {
+            document.getElementById('output').innerHTML = 'No SPXID found!';
         }
+        await worker.terminate(); // Terminate worker
+    };
+    reader.readAsDataURL(file);
+}
+
     </script>
 </body>
 </html>
