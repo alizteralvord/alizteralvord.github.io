@@ -32,24 +32,15 @@
             reader.onload = async function () {
                 logMessages.innerHTML += 'Processing image...<br>';
         
-                // Create a new worker (no need for .load())
-                const worker = Tesseract.createWorker({
-                    logger: info => {
-                        console.log(info);
-                        logMessages.innerHTML += `Tesseract log: ${JSON.stringify(info)}<br>`;
-                    } // Log progress
-                });
-        
                 try {
-                    // Load language and initialize (no separate .load() step)
-                    await worker.loadLanguage('eng');
-                    logMessages.innerHTML += 'Language loaded successfully.<br>';
+                    // Perform OCR directly using Tesseract.recognize
+                    const { data } = await Tesseract.recognize(reader.result, 'eng', {
+                        logger: info => {
+                            console.log(info);
+                            logMessages.innerHTML += `Tesseract log: ${JSON.stringify(info)}<br>`;
+                        } // Log progress
+                    });
         
-                    await worker.initialize('eng');
-                    logMessages.innerHTML += 'Worker initialized successfully.<br>';
-        
-                    // Recognize the image
-                    const { data } = await worker.recognize(reader.result);
                     logMessages.innerHTML += 'OCR process completed.<br>';
         
                     // Extract SPXID text
@@ -71,10 +62,6 @@
                 } catch (error) {
                     logMessages.innerHTML += `Error during processing: ${error.message}<br>`;
                     console.error(error);
-                } finally {
-                    // Terminate the worker
-                    await worker.terminate();
-                    logMessages.innerHTML += 'Worker terminated successfully.<br>';
                 }
             };
         
