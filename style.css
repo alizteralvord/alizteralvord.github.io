@@ -1,0 +1,21 @@
+#qr-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    margin-top: 2rem;
+    flex-wrap: nowrap;
+  }
+  
+  #carousel {
+    text-align: center;
+    min-width: 200px;
+    max-width: 300px;
+  }
+  
+  button {
+    font-size: 1.5rem;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+  }
+  
